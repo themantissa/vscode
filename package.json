@@ -18,7 +18,8 @@
     "onCommand:mdb.removeConnection",
     "onCommand:mdb.openMongoDBShell",
     "onView:mongoDB",
-    "onLanguage:json"
+    "onLanguage:json",
+    "onCommand:mdb.openChangeStreamView"
   ],
   "main": "./out/extension.js",
   "repository": {
@@ -83,6 +84,10 @@
       {
         "command": "mdb.openMongoDBShell",
         "title": "MongoDB: Launch Mongo Shell"
+      },
+      {
+        "command": "mdb.openChangeStreamView",
+        "title": "MongoDB: Open Change Stream Viewer"
       }
     ],
     "configuration": {

@@ -5,6 +5,7 @@
  */
 import * as vscode from 'vscode';
 
+import ChangeStreamController from './changeStreamController';
 import ConnectionController from './connectionController';
 import { ExplorerController } from './explorer';
 import { StatusView } from './views';
@@ -15,6 +16,7 @@ const log = createLogger('commands');
 // This class is the top-level controller for our extension.
 // Commands which the extensions handles are defined in the function `activate`.
 export default class MDBExtensionController implements vscode.Disposable {
+  private _changeStreamController: ChangeStreamController;
   private _connectionController: ConnectionController;
   private _explorerController: ExplorerController;
   private _statusView: StatusView;
@@ -32,6 +34,8 @@ export default class MDBExtensionController implements vscode.Disposable {
     } else {
       this._explorerController = new ExplorerController();
     }
+
+    this._changeStreamController = new ChangeStreamController(this._connectionController);
   }
 
   public activate(context: vscode.ExtensionContext) {
@@ -49,6 +53,8 @@ export default class MDBExtensionController implements vscode.Disposable {
 
     vscode.commands.registerCommand('mdb.refresh', () => this._explorerController.refresh());
     vscode.commands.registerCommand('mdb.reload', () => this._explorerController.refresh());
+
+    vscode.commands.registerCommand('mdb.openChangeStreamView', () => this._changeStreamController.openChangeStreamViewer());
 
     log.info('Registered commands.');
 
